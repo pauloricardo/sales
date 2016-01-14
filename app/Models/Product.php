@@ -12,7 +12,7 @@ class Product extends Model implements Transformable
 
     // tem que ter.
     protected $fillable = [
-        'name', 'category_id', 'description', 'price','purchase_price', 'foto'
+        'name', 'category_id', 'description', 'price','purchase_price', 'foto','qtd'
     ];
 
     public function category(){

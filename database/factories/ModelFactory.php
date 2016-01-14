@@ -31,7 +31,8 @@ $factory->define(CodeDelivery\Models\Product::class, function(Faker\Generator $f
         'name' => $faker->word,
         'description' => $faker->sentence,
         'price' => $faker->numberBetween(10,50),
-        'purchase_price' => $faker->numberBetween(10,50)
+        'purchase_price' => $faker->numberBetween(10,50),
+        'qtd' => $faker->numberBetween(0,100)
     ];
 });
 $factory->define(CodeDelivery\Models\Client::class, function(Faker\Generator $faker){

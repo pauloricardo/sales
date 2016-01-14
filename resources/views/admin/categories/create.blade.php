@@ -13,7 +13,8 @@
                 {!! Form::text('name', null, ['class'=>'form-control']) !!}
                 </div>
             </div>
-            {!! Form::submit('Salvar', ['class'=>'btn btn-default']) !!}
+            {!! Form::submit('Salvar', ['class'=>'btn btn-danger ']) !!}
+            <a href="{{route('admin.products.index')}}" class="btn btn-info">Voltar</a>
             {!! Form::close() !!}
     </div>
     </div>

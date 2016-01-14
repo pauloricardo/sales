@@ -39,5 +39,8 @@ class User extends Model implements Transformable,AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
+    public function client(){
+        return $this->hasOne(\CodeDelivery\Models\Category::class);
+    }
 
 }

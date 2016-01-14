@@ -83,6 +83,13 @@
         $('#purchase_price').setMask('decimal');
         $('#phone').setMask('phone');
         $('#zip_code').setMask('cep');
+        $('.filter-btn').click(function(){
+            if($('.filter-fields').is(':visible')){
+                $('.filter-fields').slideUp(200);
+            }else{
+                $('.filter-fields').slideDown(200);
+            }
+        });
     });
 </script>
 

@@ -15,6 +15,7 @@ class CategoryRepositoryEloquent extends BaseRepository implements CategoryRepos
 {
 
     public function lists(){
+
         return $this->model->lists('name', 'id');
     }
     /**

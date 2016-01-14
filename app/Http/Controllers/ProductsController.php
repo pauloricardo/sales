@@ -24,11 +24,24 @@ class ProductsController extends Controller
         $this->categoryRepository = $categoryRepository;
         $this->productService = $productService;
     }
-    public function index()
+    public function index(\CodeDelivery\Http\Requests\ProductRequest $request)
     {
         $model = $this->repository->model();
-        $products = $model::orderBy('id','desc')->paginate(8);
-        return view('admin.products.index', compact('products'));
+        if(empty($request->all())){
+            $products = $model::orderBy('id','desc')->paginate(8);
+        }else{
+            $data = $request->all();
+            $data = array_filter($data);
+            unset($data['_token']);
+            $filter = array();
+            foreach($data as $key => $value){
+                $filter[$key] = $value;
+            }
+            $products = $model::where($filter)->orderBy('id','desc')->paginate(8);
+        }
+
+        $categories = $this->categoryRepository->lists(['name', 'id'])->toArray();
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function create(){

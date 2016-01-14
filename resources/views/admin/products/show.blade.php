@@ -36,6 +36,14 @@
                     R$ {{$produto->purchase_price}}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Quantidade:
+                </div>
+                <div class="col-md-7">
+                    {{$produto->qtd}}
+                </div>
+            </div>
             @if(!empty($produto->foto))
                 <div class="row">
                     <div class="col-md-4">

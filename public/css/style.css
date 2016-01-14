@@ -11,3 +11,10 @@
 .left {
     float: left;
 }
+.right{
+    float:right;
+}
+.filter-fields{
+    display: none;
+    margin-top:20px;
+}

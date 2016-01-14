@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkrole'], function () {
     });
     Route::group(['prefix' => 'products'], function () {
         Route::get('index', ['uses' => 'ProductsController@index', 'as' => 'admin.products.index']);
+        Route::post('index', ['uses' => 'ProductsController@index', 'as' => 'admin.products.index']);
         Route::get('create', ['uses' => 'ProductsController@create', 'as' => 'admin.products.create']);
         Route::get('delete/{id}', ['uses' => 'ProductsController@delete', 'as' => 'admin.products.delete']);
         Route::get('edit/{id}', ['uses' => 'ProductsController@edit', 'as' => 'admin.products.edit']);
