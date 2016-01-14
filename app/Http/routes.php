@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkrole'], function () {
     });
     Route::group(['prefix' => 'clients'], function () {
         Route::get('index', ['uses' => 'ClientsController@index', 'as' => 'admin.clients.index']);
+        Route::post('index', ['uses' => 'ClientsController@index', 'as' => 'admin.clients.index']);
         Route::get('create', ['uses' => 'ClientsController@create', 'as' => 'admin.clients.create']);
         Route::get('delete/{id}', ['uses' => 'ClientsController@delete', 'as' => 'admin.clients.delete']);
         Route::get('edit/{id}', ['uses' => 'ClientsController@edit', 'as' => 'admin.clients.edit']);

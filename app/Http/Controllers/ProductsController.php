@@ -33,6 +33,7 @@ class ProductsController extends Controller
             $data = $request->all();
             $data = array_filter($data);
             unset($data['_token']);
+
             $filter = array();
             foreach($data as $key => $value){
                 $filter[$key] = $value;

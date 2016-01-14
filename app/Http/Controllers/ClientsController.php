@@ -2,15 +2,10 @@
 
 namespace CodeDelivery\Http\Controllers;
 
-use CodeDelivery\Models\Client;
+use CodeDelivery\Http\Requests;
 use CodeDelivery\Repositories\ClientRepositoryEloquent;
 use CodeDelivery\Repositories\UserRepositoryEloquent;
 use CodeDelivery\Services\ClientService;
-use Illuminate\Http\Request;
-
-use CodeDelivery\Http\Requests;
-use CodeDelivery\Http\Controllers\Controller;
-use CodeDelivery\Repositories\ClientRepository;
 
 class ClientsController extends Controller
 {
@@ -18,20 +13,36 @@ class ClientsController extends Controller
     private $repository;
     private $userRepository;
     private $clientService;
-    public function __construct(ClientRepositoryEloquent $repository, UserRepositoryEloquent  $userRepository, ClientService  $clientService){
+
+    public function __construct(ClientRepositoryEloquent $repository, UserRepositoryEloquent $userRepository, ClientService $clientService)
+    {
         $this->repository = $repository;
         $this->userRepository = $userRepository;
         $this->clientService = $clientService;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Requests\ClientRequest $request)
     {
         $model = $this->repository->model();
-        $clients = $model::orderBy('id','desc')->paginate(8);
+
+        if (empty($request->all())) {
+            $clients = $model::orderBy('id', 'desc')->paginate(8);
+        } else {
+            $data = $request->all();
+            $data = array_filter($data);
+            unset($data['_token']);
+
+            $clients = $model::whereHas('user', function ($q) use ($data) {
+                foreach ($data as $key => $value) {
+                    $q->where($key, 'like', '%' . $value . '%');
+                }
+            })->orderBy('id', 'desc')->paginate(8);
+        }
         return view('admin.clients.index', compact('clients'));
 
     }
@@ -51,10 +62,10 @@ class ClientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(\CodeDelivery\Http\Requests\ClientRequest  $request)
+    public function store(\CodeDelivery\Http\Requests\ClientRequest $request)
     {
         $this->clientService->create($request->all());
 
@@ -65,18 +76,19 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $cliente = $this->repository->find($id);
+        return view('admin.clients.show', compact('cliente'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -91,13 +103,13 @@ class ClientsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Requests\ClientRequest $request, $id)
     {
-        $this->clientService->update($request->all(),$id);
+        $this->clientService->update($request->all(), $id);
 
         return redirect()->route('admin.clients.index');
 
@@ -106,7 +118,7 @@ class ClientsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function delete($id)
