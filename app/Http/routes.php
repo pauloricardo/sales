@@ -29,12 +29,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkrole'], function () {
         Route::put('update/{id}', ['uses' => 'CategoriesController@update', 'as' => 'admin.categories.update']);
 
     });
+
     Route::group(['prefix' => 'products'], function () {
         Route::get('index', ['uses' => 'ProductsController@index', 'as' => 'admin.products.index']);
         Route::post('index', ['uses' => 'ProductsController@index', 'as' => 'admin.products.index']);
         Route::get('create', ['uses' => 'ProductsController@create', 'as' => 'admin.products.create']);
         Route::get('delete/{id}', ['uses' => 'ProductsController@delete', 'as' => 'admin.products.delete']);
         Route::get('edit/{id}', ['uses' => 'ProductsController@edit', 'as' => 'admin.products.edit']);
+        Route::get('get-products/{page}', 'ProductsController@getProducts');
         Route::get('show/{id}', ['uses' => 'ProductsController@show', 'as' => 'admin.products.show']);
 
         Route::post('store', ['uses' => 'ProductsController@store', 'as' => 'admin.products.store']);
